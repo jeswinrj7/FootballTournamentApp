@@ -1,0 +1,20 @@
+# Ignore virtual environment directories
+venv/
+env/
+*.pyc
+
+# Ignore database files
+django.db.backends.postgresql
+
+# Ignore secret key settings
+football_tournament/secret_key.py
+
+# Ignore settings files with sensitive information (e.g., development.py, production.py)
+# football_tournament/settings/development.py
+# football_tournament/settings/production.py
+
+# Ignore user-specific files
+*.DS_Store
+*.idea/
+*.vscode/
+__pycache__/
