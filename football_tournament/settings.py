@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tournament',
+    "bootstrap3",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +79,8 @@ WSGI_APPLICATION = 'football_tournament.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',    # Replace with your database name
-        'USER': 'postgres',    # Replace with your database user
+        'NAME': 'mydb',    # Replace with your database name
+        'USER': 'myuser',    # Replace with your database user
         'PASSWORD': 'Jeswin4@',  # Replace with your database password
         'HOST': 'localhost',             # Replace with your database host (e.g., 'localhost' or '127.0.0.1')
         'PORT': '5432',                      # Replace with your database port (leave empty for default)
@@ -120,6 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_URL = '/admin'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

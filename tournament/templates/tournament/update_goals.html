@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Goals{% endblock %}
+
+{% block content %}
+    <br>
+    <h5>Update Goal Scores</h5>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="team1_select">Select Team 1:</label>
+            <select id="team1_select" name="team1_select">
+                <option value="" selected disabled>Select Team 1</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}" {% if team1_id == team.id %} selected {% endif %}>{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="team2_select">Select Team 2:</label>
+            <select id="team2_select" name="team2_select">
+                <option value="" selected disabled>Select Team 2</option>
+                {% for team in teams %}
+                    <option value="{{ team.id }}" {% if team2_id == team.id %}selected{% endif %}>{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" name="action" value="Show Matches">
+        {% if matches %}
+            <br>
+            <br>
+            <h6>Matches:</h6>
+            <input type="submit" name="action" value="Update Goals">
+            <br>
+            <br>
+            <div>
+                <table style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 8px;">Date</th>
+                            <th style="border: 1px solid black; padding: 8px;">Venue</th>
+                            <th style="border: 1px solid black; padding: 8px;">Team 1</th>
+                            <th style="border: 1px solid black; padding: 8px;">Team 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in matches %}
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px;">{{ match.date }}</td>
+                                <td style="border: 1px solid black; padding: 8px;"d>{{ match.venue }}</td>
+                                <td style="border: 1px solid black; padding: 8px;">{{ match.team1.name }}</td>
+                                <td style="border: 1px solid black; padding: 8px;">{{ match.team2.name }}</td>                            
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+                {% for match in matches %}
+                    <label for="team1_goals">Team 1 Goals:</label>
+                    <input type="number" id="team1_goals" name="team1_goals" value="{{ match.team1_goals }}">
+                    <br>
+                    <label for="team2_goals">Team 2 Goals:</label>
+                    <input type="number" id="team2_goals" name="team2_goals" value="{{ match.team2_goals }}">
+                {% endfor %}
+        
+    </form>
+    {% else %}    
+    <div>
+        <br>
+        <h8>Select available Team 1 and Team 2 values.</h8>
+    </div>    
+    {% endif %}
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+</div>
+{% endblock %}

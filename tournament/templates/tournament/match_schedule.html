@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Match Schedule{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <br>
+    <h1>Match Schedule</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="border: 1px solid black; padding: 8px;">Date</th>
+          <th style="border: 1px solid black; padding: 8px;">Match</th>
+          <th style="border: 1px solid black; padding: 8px;">Team 1</th>
+          <th style="border: 1px solid black; padding: 8px;">Team 2</th>
+          <th style="border: 1px solid black; padding: 8px;">Venue</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for match in team_matches %}
+          <tr>
+            <td style="border: 1px solid black; padding: 8px;">{{ match.date|date:"F d, Y" }}</td>
+            <td style="border: 1px solid black; padding: 8px;">Match {{ forloop.counter }}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{ match.team1.name }}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{ match.team2.name }}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{ match.venue }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}  

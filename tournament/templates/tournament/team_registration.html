@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Team Registration{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mt-4 mb-10">Register a Team</h2>
+    <form method="post" onsubmit="return validateForm()">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">Team Name:</label>
+        {{ form.name|add_class:"form-control" }}
+        {{ form.name.errors }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.coach.id_for_label }}">Coach:</label>
+        {{ form.coach|add_class:"form-control" }}
+        {{ form.coach.errors }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.manager.id_for_label }}">Manager:</label>
+        {{ form.manager|add_class:"form-control" }}
+        {{ form.manager.errors }}
+      </div>
+      {{ member_formset.management_form }}
+      {% for member_form in member_formset %}
+        {{ member_form.id }}
+        <div class="form-group">
+          <label for="{{ member_form.member_name.id_for_label }}">Member Name:</label>
+          {{ member_form.member_name|add_class:"form-control member-input" }}
+          {{ member_form.member_name.errors }}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      // Get form fields
+      var nameField = document.getElementById("id_name");
+      var coachField = document.getElementById("id_coach");
+      var managerField = document.getElementById("id_manager");
+      var memberFields = document.getElementsByClassName("member-input");
+  
+      // Validate team name, coach, and manager
+      if (nameField.value === "" || coachField.value === "" || managerField.value === "") {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+  
+      // Validate team members
+      for (var i = 0; i < memberFields.length; i++) {
+        if (memberFields[i].value === "") {
+          alert("Please fill in all team member fields.");
+          return false;
+        }
+        if (!isNaN(memberFields[i].value) ) {
+          alert("Fields cannot contain numbers1.");
+          return false;
+        }
+      }  
+      return true; // Form submission allowed
+    }
+  </script>
+
+  <style>
+    .form-control{
+      width: min-content;
+    }
+  </style>
+
+{% endblock %}

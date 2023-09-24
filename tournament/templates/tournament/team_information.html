@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Team Information{% endblock %}
+
+{% block content %}
+    <h5>Team Information</h5>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="team_select">Select a Team:</label>
+        <select id="team_select" name="team_select">
+            <option value="" selected disabled>Select a team</option>
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if team_information %}
+    <div style="display: flex;">
+        <div style="flex: 1; padding: 20px;">
+            <h2>Team: {{ team_information.team.name }}</h2>
+            <p>Coach: {{ team_information.coach }}</p>
+            <p>Manager: {{ team_information.manager }}</p>
+            <h3>Team Members:</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% for member in team_information.members %}
+                    <li>{{ member.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div style="flex: 2; text-align: center;">
+            <h3>Matches</h3>
+            <table style="margin: 0 auto; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid black; padding: 8px;">Date</th>
+                        <th style="border: 1px solid black; padding: 8px;">Venue</th>
+                        <th style="border: 1px solid black; padding: 8px;">Opponent</th>
+                        <th style="border: 1px solid black; padding: 8px;">Goals Scored</th>
+                        <th style="border: 1px solid black; padding: 8px;">Goals by opponent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in team_information.matches %}
+                        <tr>
+                            <td style="border: 1px solid black; padding: 8px;">{{ match.date }}</td>
+                            <td style="border: 1px solid black; padding: 8px;">{{ match.venue }}</td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                {% if match.team1 == team_information.team %}
+                                    {{ match.team2.name }}
+                                {% else %}
+                                    {{ match.team1.name }}
+                                {% endif %}
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                {% if match.team1 == team_information.team %}
+                                    {{ match.team1_goals }}
+                                {% else %}
+                                    {{ match.team2_goals }}
+                                {% endif %}
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                {% if match.team1 == team_information.team %}
+                                    {{ match.team2_goals }}
+                                {% else %}
+                                    {{ match.team1_goals }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
