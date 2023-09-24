@@ -52,6 +52,9 @@ def generate_schedule(request):
         'team_matches': matches,
         }
         return render(request, 'tournament/match_schedule.html', context)
+    elif team_count < 10:
+        # Registration is closed, redirect to an information page      
+        return render(request, 'tournament/general_information.html', {'message': "Schedule page will be available after completing the registration."})
     else:
         teams = Team.objects.all()
         VENUE_NAMES = [
